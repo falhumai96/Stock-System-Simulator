@@ -1,4 +1,4 @@
-//#ifdef _REDBLACKTREE_H_
+#ifdef _REDBLACKTREE_H_
 
 //************************************
 // Method:    getNodeFromTree.
@@ -564,4 +564,4 @@ Node<T>* RedBlackTree<T>::CopyTree(Node<T>* thisnode, Node<T>* sourcenode, Node<
     return NULL;
 }
 
-//#endif
+#endif
