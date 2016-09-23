@@ -1,5 +1,14 @@
-SSS#include "stocksystem.h"
-#include <iostream>
+// File:        stocksystem.cpp
+// Date:        2016-02-28
+// Description: implementation of a StockSystem class 
+
+#include <math.h>
+#include <sstream>
+
+#include "stockitem.h"
+#include "stocksystem.h"
+#include "redblacktree.h"
+
 
 //************************************
 // Method:    StockSystem.
@@ -157,8 +166,6 @@ bool StockSystem::Restock(unsigned int itemsku, unsigned int quantity, double un
 
 
 
-
-
 //************************************
 // Method:    Sell.
 // FullName:  StockSystem::Sell.
@@ -199,3 +206,12 @@ bool StockSystem::Sell(unsigned int itemsku, unsigned int quantity) {
 
     return true;
 }
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,16 @@
+
+// File:        redblacktree.cpp
+// Date:        2016-02-27
+// Description: Implementation of a RedBlackTree class and template Node class 
+
 #ifdef _REDBLACKTREE_H_
 
-//************************************
+#include <cstdlib>
+#include <stdexcept>
+#include <string>
+#include <iostream>
+
+///************************************
 // Method:    getNodeFromTree.
 // FullName:  getNodeFromTree.
 // Access:    public.
@@ -30,7 +40,6 @@ Node<T>* getNodeFromTree(Node<T>* nd, T value) {
         return NULL;
     }
 }
-
 
 //************************************
 // Method:    Height.
@@ -83,6 +92,7 @@ unsigned int RedBlackTree<T>::Size() const {
 template <class T>
 void RedBlackTree<T>::RemoveAll() {
     RemoveAll(root);
+    root = NULL;
     size = 0; // This is to explicitly returning the size counter to 0, so when
     //   we insert a first item again, it will count that item as a root
     //   (i.e. the condition size <= 0 in BSTInsert method in rbtreepartial.cpp 
@@ -201,6 +211,15 @@ bool RedBlackTree<T>::Remove(T item) {
     return true;
 }
 
+template <class T>
+void InsertItemIntoTree(Node<T>* currentNode, RedBlackTree<T>* thisTree) {
+    if (currentNode != NULL) {
+        InsertItemIntoTree(currentNode->left);
+        InsertItemIntoTree(currentNode->right);
+        thisTree->Insert(currentNode->data);
+    }
+}
+
 //************************************
 // Method:    RBDeleteFixUp.
 // FullName:  RedBlackTree<T>::RBDeleteFixUp.
@@ -216,108 +235,11 @@ bool RedBlackTree<T>::Remove(T item) {
 //************************************
 template <class T>
 void RedBlackTree<T>::RBDeleteFixUp(Node<T>* x, Node<T>* xparent, bool xisleftchild) {
-    Node<T>* y = NULL;
-
-    while (x != root && x != NULL && x->is_black == true) {
-        if (xisleftchild == true) {
-            if (xparent != NULL) {
-                y = xparent->right; // y is x's sibling.
-            }
-
-            if (y != NULL && y->is_black == false) {
-                y->is_black = true;
-                if (xparent != NULL) {
-                    xparent->is_black = false; // x's parent must have been black since y is red.
-                }
-                LeftRotate(xparent);
-                if (xparent != NULL) {
-                    y = xparent->right;
-                }
-            }
-
-            if (y != NULL && y->left != NULL && y->right != NULL && y->left->is_black == true && y->right->is_black == true) {
-                y->is_black = false;
-                x = xparent; // Back to the loop again. 
-                if (x != NULL) {
-                    xparent = x->p; // Set the new xparent after x being modified.
-                }
-                xisleftchild = (xparent != NULL && x == xparent->left);
-            } else {
-                if (y != NULL && y->right != NULL && y->right->is_black == true) {
-                    if (y->left != NULL) {
-                        y->left->is_black = true;
-                    }
-                    y->is_black = false;
-                    RightRotate(y);
-                    if (xparent != NULL) {
-                        y = xparent->right;
-                    }
-                }
-                if (y != NULL && xparent != NULL) {
-                    y->is_black = xparent->is_black;
-                    xparent->is_black = true;
-                }
-
-                if (y != NULL && y->right != NULL) {
-                    y->right->is_black = true;
-                }
-
-                LeftRotate(xparent);
-                x = root;
-                xparent = NULL;
-            }
-        } else { // This part is symmetric to the if part.
-            if (xparent != NULL) {
-                y = xparent->left; // y is x's sibling.
-            }
-
-            if (y != NULL && y->is_black == false) {
-                y->is_black = true;
-                if (xparent != NULL) {
-                    xparent->is_black = false; // x's parent must have been black since y is red.
-                }
-                RightRotate(xparent);
-                if (xparent != NULL) {
-                    y = xparent->left;
-                }
-            }
-
-            if (y != NULL && y->right != NULL && y->left != NULL && y->right->is_black == true && y->left->is_black == true) {
-                y->is_black = false;
-                x = xparent; // Back to the loop again. 
-                if (x != NULL) {
-                    xparent = x->p; // Set the new xparent after x being modified.
-                }
-                xisleftchild = (xparent != NULL && x == xparent->left);
-            } else {
-                if (y != NULL && y->left != NULL && y->left->is_black == true) {
-                    if (y->right != NULL) {
-                        y->right->is_black = true;
-                    }
-                    y->is_black = false;
-                    LeftRotate(y);
-                    if (xparent != NULL) {
-                        y = xparent->left;
-                    }
-                }
-                if (y != NULL && xparent != NULL) {
-                    y->is_black = xparent->is_black;
-                    xparent->is_black = true;
-                }
-
-                if (y != NULL && y->left != NULL) {
-                    y->left->is_black = true;
-                }
-
-                RightRotate(xparent);
-                x = root;
-                xparent = NULL;
-            }
-        }
-    }
-    if (x != NULL) {
-        x->is_black = true;
-    }
+    RedBlackTree<T> newTree();
+    InsertItemIntoTree(root, &newTree);
+    RemoveAll();
+    this = newTree;
+    newTree.RemoveAll();
 }
 
 //************************************
@@ -564,4 +486,5 @@ Node<T>* RedBlackTree<T>::CopyTree(Node<T>* thisnode, Node<T>* sourcenode, Node<
     return NULL;
 }
 
-#endif
+
+#endif _REDBLACKTREE_H_

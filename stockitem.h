@@ -1,3 +1,7 @@
+// File:        stockitem.h
+// Date:        2016-02-27
+// Description: Declaration of a StockItem class 
+
 #pragma once
 
 #define DESC_MAX_LENGTH 30
@@ -8,10 +12,10 @@ using namespace std;
 
 class StockItem {
 private:
-    unsigned int sku; // unique identifier for stock keeping unit, range [10000, 99999] (5 digits)
+    int sku; // unique identifier for stock keeping unit, range [10000, 99999] (5 digits)
     string description; // product name, maximum length of 
     double price; // retail price of product
-    unsigned int stock; // number of units in stock
+    int stock; // number of units in stock
 
 public:
     // Default constructor
@@ -20,17 +24,16 @@ public:
     // Parameterized constructor
     // Need to specify SKU, description, and price.
     // Stock is defaulted to 0;
-    StockItem(unsigned int skuid, string desc, double p);
+    StockItem(int skuid, string desc, double p);
 
     // Accessors
-    unsigned int GetSKU() const;
+    int GetSKU() const;
     string GetDescription() const;
     double GetPrice() const;
-    unsigned int GetStock() const;
+    int GetStock() const;
 
     // Mutators
     // boolean return values - return true for successful update, false if argument is invalid (i.e. negative price/stock/SKU)
-    // parameters are signed - will convert to unsigned if parameter is valid
     // sku cannot be modified
     bool SetDescription(string newdesc);
     bool SetPrice(double newprice);

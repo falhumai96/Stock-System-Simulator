@@ -1,8 +1,15 @@
+// File:        redblacktree.h
+// Date:        2016-02-27
+// Description: Declaration of a RedBlackTree class and template Node class 
+
 #ifndef _REDBLACKTREE_H_
 #define _REDBLACKTREE_H_
 
 #include <cstdlib>
 #include <stdexcept>
+#include <string>
+#include <stdio.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -29,11 +36,12 @@ public:
 template <class T>
 class RedBlackTree {
 private:
+
     Node<T>* root;
-    unsigned int size;
+    int size;
 
     // recursive helper function for deep copy
-    // creates a new node "thisnode" based on sourcenode's contents, links back to parentnode,
+    // creates a new node based on sourcenode's contents, links back to parentnode,
     //   and recurses to create left and right children
     Node<T>* CopyTree(Node<T>* thisnode, Node<T>* sourcenode, Node<T>* parentnode);
 
@@ -44,17 +52,17 @@ private:
     // performs BST insertion and returns pointer to inserted node
     // Note that this should only be called if item does not already exist in the tree
     // Does not increase tree size.
-    Node<T>* BSTInsert(T item);
+    Node<T>* BSTInsert(T item); //Done
 
     // helper function for in-order traversal
-    void InOrder(const Node<T>* node, T* arr, unsigned int arrsize, unsigned int& index) const;
+    void InOrder(const Node<T>* node, T* arr, int arrsize, int& index) const; //Done
 
     // rotation functions
-    void LeftRotate(Node<T>* node);
-    void RightRotate(Node<T>* node);
+    void LeftRotate(Node<T>* node); //Done
+    void RightRotate(Node<T>* node); //Done
 
     // get the predecessor of a node
-    Node<T>* Predecessor(Node<T>* node);
+    Node<T>* Predecessor(Node<T>* node); //Done
 
     // Tree fix, performed after removal of a black node
     // Note that the parameter x may be NULL
@@ -63,8 +71,10 @@ private:
     // Calculates the height of the tree
     // Requires a traversal of the tree, O(n)
     unsigned int CalculateHeight(Node<T>* node) const;
+
 public:
-    // default constructor
+
+    // default constructor--------------------------------------------------
     RedBlackTree();
 
     // copy constructor, performs deep copy of parameter
@@ -74,10 +84,7 @@ public:
     // Must deallocate memory associated with all nodes in tree
     ~RedBlackTree();
 
-    // overloaded assignment operator
-    RedBlackTree<T>& operator=(const RedBlackTree<T>& rbtree);
-
-    // Accessor functions
+    // Mutator functions-----------------------------------------------------
 
     // Calls BSTInsert and then performs any necessary tree fixing.
     // If item already exists, do not insert and return false.
@@ -88,22 +95,24 @@ public:
     // Must deallocate deleted node after RBDeleteFixUp returns
     bool Remove(T item);
 
+    // deletes all nodes in the tree. Calls recursive helper function.
+    void RemoveAll();
+
+    // Accessor functions------------------------------------------------------
+
     // Returns existence of item in the tree.
     // Return true if found, false otherwise.
-    bool Search(T item) const;
+    bool Search(T item) const; //Done
 
     // Searches for item and returns a pointer to the node contents so the
     //   value may be accessed or modified
     // Use with caution! Do not modify the item's key value such that the
     //   red-black / BST properties are violated.
-    T* Retrieve(T item);
-
-    // deletes all nodes in the tree. Calls recursive helper function.
-    void RemoveAll();
+    T* Retrieve(T item); //Done
 
     // performs an in-order traversal of the tree
     // arrsize is the size of the returned array (equal to tree size attribute)
-    T* Dump(unsigned int& arrsize) const;
+    T* Dump(int& arrsize) const; //Done
 
     // returns the number of items in the tree
     unsigned int Size() const;
@@ -113,9 +122,15 @@ public:
     unsigned int Height() const;
 
     // returns a pointer to the root of the tree
+    // NOTE: This will be used only for grading.
+    // Providing access to the tree internals is dangerous in practice!
+
     Node<T>* GetRoot() const {
         return this->root;
     }
+
+    // overloaded assignment operator
+    RedBlackTree<T>& operator=(const RedBlackTree<T>& rbtree);
 };
 
 #include "rbtreepartial.cpp"
